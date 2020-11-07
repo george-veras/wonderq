@@ -2,19 +2,50 @@
   "name": "wonderq",
   "version": "1.0.0",
   "description": "A simplified version of a message broker.",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "eslint": "./node_modules/.bin/eslint --fix .",
+    "eslint:check": "./node_modules/.bin/eslint .",
+    "fmt": "npm run prettier && npm run eslint",
+    "fmt:check": "npm run prettier:check && npm run eslint:check",
+    "prettier": "./node_modules/.bin/prettier --write \"**/{*.js,*.json}\"",
+    "prettier:check": "./node_modules/.bin/prettier --check \"**/{*.js,*.json}\"",
+    "start": "node ./app.js",
+    "test": "./node_modules/.bin/nyc mocha --reporter spec",
+    "test:coverage-report": "nyc report --reporter=text-lcov > coverage.lcov"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/george-veras/wonderq.git"
   },
-  "keywords": [],
+  "keywords": [
+    "message broker",
+    "queue service",
+    "queues"
+  ],
   "author": "George Véras Valentim",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/george-veras/wonderq/issues"
   },
-  "homepage": "https://github.com/george-veras/wonderq#readme"
+  "homepage": "https://github.com/george-veras/wonderq#readme",
+  "dependencies": {
+    "express": "4.17.1"
+  },
+  "devDependencies": {
+    "chai": "4.2.0",
+    "eslint": "7.2.0",
+    "eslint-config-airbnb-base": "14.2.1",
+    "eslint-config-prettier": "6.15.0",
+    "eslint-plugin-chai-friendly": "0.6.0",
+    "eslint-plugin-import": "2.22.1",
+    "eslint-plugin-no-unsafe-regex": "^1.0.0",
+    "eslint-plugin-prettier": "3.1.4",
+    "eslint-plugin-security": "1.4.0",
+    "eslint-plugin-you-dont-need-lodash-underscore": "6.10.0",
+    "mocha": "8.2.1",
+    "nyc": "15.1.0",
+    "prettier": "2.1.2",
+    "supertest": "^6.0.1"
+  }
 }
