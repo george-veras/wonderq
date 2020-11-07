@@ -4,7 +4,7 @@ const { logLevel } = require('../config')
 /**
  * Logger instance config using pinojs.
  * This client is designed to abstract the log library
- * and provide flexibility for the team to change it when it seems fit.
+ * and provide flexibility for the team to change it whenever it seems fit.
  *
  * See: https://github.com/pinojs/pino
  */
@@ -21,10 +21,8 @@ const config = Object.freeze({
 const loggerInstance = logLibrary(config)
 
 module.exports = {
-  debug: loggerInstance.debug,
-  info: loggerInstance.info,
-  warn: loggerInstance.warn,
-  error: loggerInstance.error,
-  fatal: loggerInstance.fatal,
-  silent: loggerInstance.silent,
+  debug: (content) => loggerInstance.debug(content),
+  info: (content) => loggerInstance.info(content),
+  warn: (content) => loggerInstance.warn(content),
+  error: (content) => loggerInstance.error(content),
 }
