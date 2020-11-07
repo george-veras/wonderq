@@ -1,7 +1,7 @@
-const request = require('supertest')
-const httpStatus = require('http-status')
+import request  from 'supertest'
+import httpStatus from 'http-status'
 
-const app = require('../../../app')
+import app from '../../../app.js'
 
 describe('HealthCheck test', () => {
   describe('GET /healthcheck', () => {

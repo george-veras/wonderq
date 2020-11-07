@@ -1,6 +1,6 @@
 // Express
-const express = require('express')
-const routes = require('./routes')
+import express from 'express'
+import routes from './routes/index.js'
 
 // Init express app
 const app = express()
@@ -10,4 +10,4 @@ app.use(express.json())
 // Routes
 app.use('/', routes)
 
-module.exports = app
+export default app

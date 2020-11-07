@@ -1,4 +1,4 @@
-const logger = require('../clients/logger-client')
+import logger from '../clients/logger-client.js'
 
 const HealthCheckService = {
   async status() {
@@ -13,4 +13,4 @@ const HealthCheckService = {
   },
 }
 
-module.exports = HealthCheckService
+export default HealthCheckService

@@ -1,7 +1,9 @@
-const router = require('express').Router()
-const HealthCheckController = require('../controllers/healthcheck-controller')
+import express from 'express'
+import HealthCheckController from '../controllers/healthcheck-controller.js'
+
+const router = express.Router()
 
 // Prefix: /healthcheck
 router.get('/', HealthCheckController.status)
 
-module.exports = router
+export default router

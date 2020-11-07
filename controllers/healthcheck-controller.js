@@ -1,10 +1,11 @@
-const HealthCheckService = require('../services/healthcheck-service')
+import httpStatus from 'http-status'
+import HealthCheckService from '../services/healthcheck-service.js'
 
 const HealthCheckController = {
   async status(req, res) {
-    const status = await HealthCheckService.status()
-    res.status(200).json(status)
+    const apiHealthStatus = await HealthCheckService.status()
+    res.status(httpStatus.OK).json(apiHealthStatus)
   },
 }
 
-module.exports = HealthCheckController
+export default HealthCheckController

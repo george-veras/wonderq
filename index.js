@@ -1,6 +1,6 @@
-const app = require('./app')
-const logger = require('./clients/logger-client')
-const { nodePort } = require('./config')
+import app from './app.js'
+import logger from './clients/logger-client.js'
+import { nodePort } from './config/index.js'
 
 app.listen(nodePort, () => {
   logger.info({

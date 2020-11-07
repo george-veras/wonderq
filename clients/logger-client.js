@@ -1,5 +1,5 @@
-const logLibrary = require('pino')
-const { logLevel } = require('../config')
+import logLibrary from 'pino'
+import { logLevel } from '../config/index.js'
 
 /**
  * Logger instance config using pinojs.
@@ -20,7 +20,7 @@ const config = Object.freeze({
 /** @type {pino.Logger} */
 const loggerInstance = logLibrary(config)
 
-module.exports = {
+export default {
   debug: (content) => loggerInstance.debug(content),
   info: (content) => loggerInstance.info(content),
   warn: (content) => loggerInstance.warn(content),
