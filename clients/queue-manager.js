@@ -36,6 +36,8 @@ export default (timeoutMilliseconds) => {
     },
 
     pullFromQueue: () => {
+      if (!messagesReady.length) return false
+
       const pulledMessage = messagesReady.shift()
       pulledMessage.timestamp = Date.now()
 
