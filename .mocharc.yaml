@@ -3,4 +3,4 @@ require:
   - './test/setup.js'
 recursive: true
 exit: true
-timeout: 6000
+timeout: 7000

@@ -13,6 +13,7 @@
     "prettier:check": "./node_modules/.bin/prettier --check \"**/{*.js,*.json}\"",
     "start": "node ./index.js",
     "test": "./node_modules/.bin/nyc mocha --reporter spec",
+    "test:debug": "npm test debug",
     "test:coverage-report": "nyc report --reporter=text-lcov > coverage.lcov"
   },
   "repository": {

@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'
+import binarySearchAlgorithm from '../helpers/binary-search-algorithm.js'
 import { messagesFlushInterval } from '../config/index.js'
 
 // This array will work as a queue for messages available to be picked.
@@ -46,9 +47,12 @@ export default timeoutMilliseconds => {
 
     acknowledgeMessage: messageId => {
       const indexToPurge = unacknowledgedMessages[messageId]
-      const messageToPurge = timerToRequeueBuffer[indexToPurge]
-      const timestampThreshold = Date.now() - timeoutMilliseconds
+      if (typeof indexToPurge === 'undefined') return false
 
+      const messageToPurge = timerToRequeueBuffer[indexToPurge]
+      if (typeof messageToPurge === 'undefined') return false
+
+      const timestampThreshold = Date.now() - timeoutMilliseconds
       if(messageToPurge.id === messageId && messageToPurge.timestamp > timestampThreshold) {
         // One doesn't need to lock the array here because javascript is not multi-threaded.
         // Asynchronous does not mean multiple threads.
