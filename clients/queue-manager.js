@@ -3,7 +3,6 @@ import binarySearchAlgorithm from '../helpers/binary-search-algorithm.js'
 import { messagesFlushInterval } from '../config/index.js'
 
 export default (timeoutMilliseconds) => {
-
   // This array will work as a queue for messages available to be picked.
   const messagesReady = []
 
