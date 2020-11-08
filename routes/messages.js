@@ -1,10 +1,12 @@
 import express from 'express'
+import asyncHandler from 'express-async-handler'
 import MessagesController from '../controllers/messages-controller.js'
 
 const router = express.Router()
 
-// Prefix: /message
-router.post('/', MessagesController.pushMessage)
-router.get('/', MessagesController.pullMessage)
+// Prefix: /messages
+router.get('/', asyncHandler(MessagesController.pullMessage))
+router.post('/', asyncHandler(MessagesController.pushMessage))
+router.put('/', asyncHandler(MessagesController.acknowledgeMessage))
 
 export default router
