@@ -11,26 +11,25 @@ const unacknowledgedMessages = {}
 // This array will be ordered by a timestamp.
 const timerToRequeueBuffer = []
 
-export default timeoutMilliseconds => {
-
+export default (timeoutMilliseconds) => {
   const purgeExpiredMessages = () => {
     const timestampThreshold = Date.now() - timeoutMilliseconds
     // A binary search would save me from having to processes and move each message one by one.
     // The binary search has a complexity of O(log n).
     const firstExpiredMsgIndex = binarySearchAlgorithm.getFirstExpiredIndex(timestampThreshold, timerToRequeueBuffer)
-  
+
     // Again, no need to lock the array.
     const expiredMessages = timerToRequeueBuffer.splice(0, firstExpiredMsgIndex + 1)
     messagesReady.push(...expiredMessages)
-  
+
     // Flush the helper dictionary
-    expiredMessages.forEach(msg => delete unacknowledgedMessages[msg.id])
+    expiredMessages.forEach((msg) => delete unacknowledgedMessages[msg.id])
   }
 
   setInterval(purgeExpiredMessages, messagesFlushInterval)
 
   return {
-    pushToQueue: message => {
+    pushToQueue: (message) => {
       const id = uuidv4()
       messagesReady.push({ id, content: message })
       return id
@@ -45,7 +44,7 @@ export default timeoutMilliseconds => {
       return pulledMessage
     },
 
-    acknowledgeMessage: messageId => {
+    acknowledgeMessage: (messageId) => {
       const indexToPurge = unacknowledgedMessages[messageId]
       if (typeof indexToPurge === 'undefined') return false
 
@@ -53,7 +52,7 @@ export default timeoutMilliseconds => {
       if (typeof messageToPurge === 'undefined') return false
 
       const timestampThreshold = Date.now() - timeoutMilliseconds
-      if(messageToPurge.id === messageId && messageToPurge.timestamp > timestampThreshold) {
+      if (messageToPurge.id === messageId && messageToPurge.timestamp > timestampThreshold) {
         // One doesn't need to lock the array here because javascript is not multi-threaded.
         // Asynchronous does not mean multiple threads.
         timerToRequeueBuffer.splice(indexToPurge, 1)

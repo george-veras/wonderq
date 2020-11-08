@@ -1,4 +1,4 @@
-import request  from 'supertest'
+import request from 'supertest'
 import httpStatus from 'http-status'
 
 import app from '../../../app.js'

@@ -17,12 +17,13 @@ const MessagesController = {
   },
 
   async acknowledgeMessage(req, res) {
-    const { body: { messageId } } = req
+    const {
+      body: { messageId },
+    } = req
 
     if (queueManager.acknowledgeMessage(messageId))
       res.status(httpStatus.OK).json({ info: 'message successfully acknowledged' })
-    else
-      res.status(httpStatus[500])
+    else res.status(httpStatus[500])
   },
 }
 

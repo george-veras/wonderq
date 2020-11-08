@@ -1,8 +1,9 @@
 import chai from 'chai'
 import chaiUuid from 'chai-uuid'
+import queueManagerCreator from '../../../clients/queue-manager.js'
+
 chai.use(chaiUuid)
 const { expect } = chai
-import queueManagerCreator from '../../../clients/queue-manager.js'
 const queueManager = queueManagerCreator(3000)
 
 describe('Queue Manager', () => {
