@@ -33,6 +33,7 @@
   "homepage": "https://github.com/george-veras/wonderq#readme",
   "dependencies": {
     "express": "4.17.1",
+    "express-async-handler": "1.1.4",
     "http-status": "1.4.2",
     "pino": "6.7.0",
     "uuid": "8.3.1"
