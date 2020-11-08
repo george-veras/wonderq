@@ -6,13 +6,13 @@ const binarySearchAlgorithm = {
 
     while (low <= high) {
       mid = Math.ceil((low + high) / 2)
-      if (searchArray[mid].timestamp < threshold) {
+      if (searchArray[parseInt(mid, 10)].timestamp < threshold) {
         if (searchArray[mid + 1] && searchArray[mid + 1].timestamp < threshold) {
           low = mid + 1
         } else {
           return mid
         }
-      } else if (searchArray[mid].timestamp > threshold) {
+      } else if (searchArray[parseInt(mid, 10)].timestamp > threshold) {
         if (searchArray[mid - 1] && searchArray[mid - 1].timestamp > threshold) {
           high = mid - 1
         } else {
