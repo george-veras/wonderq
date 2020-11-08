@@ -1,4 +1,4 @@
-import app from './app.js'
+import app from './app'
 import logger from './clients/logger-client.js'
 import { nodePort } from './config/index.js'
 

@@ -11,10 +11,9 @@
     "fmt:check": "npm run prettier:check && npm run eslint:check",
     "prettier": "./node_modules/.bin/prettier --write \"**/{*.js,*.json}\"",
     "prettier:check": "./node_modules/.bin/prettier --check \"**/{*.js,*.json}\"",
-    "start": "node ./index.js",
-    "test": "./node_modules/.bin/nyc mocha --reporter spec",
-    "test:debug": "npm test debug",
-    "test:coverage-report": "nyc report --reporter=text-lcov > coverage.lcov"
+    "start": "node --experimental-specifier-resolution=node index",
+    "test": "ACKNOWLEDGEMENT_TIMEOUT=2000 mocha --reporter spec",
+    "test:debug": "npm test debug"
   },
   "repository": {
     "type": "git",
@@ -51,7 +50,6 @@
     "eslint-plugin-security": "1.4.0",
     "eslint-plugin-you-dont-need-lodash-underscore": "6.10.0",
     "mocha": "8.2.1",
-    "nyc": "15.1.0",
     "prettier": "2.1.2",
     "supertest": "6.0.1"
   }

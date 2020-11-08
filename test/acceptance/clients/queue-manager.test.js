@@ -14,9 +14,9 @@ describe('Queue Manager', () => {
     let secondMessageId
 
     describe('.pushToQueue(message)', () => {
-      before(() => {
-        firstMessageId = queueManager.pushToQueue(firstMessage)
-        secondMessageId = queueManager.pushToQueue(secondMessage)
+      before(async () => {
+        firstMessageId = await queueManager.pushToQueue(firstMessage)
+        secondMessageId = await queueManager.pushToQueue(secondMessage)
       })
 
       it('should enqueue messages and return its ids.', () => {
@@ -29,9 +29,9 @@ describe('Queue Manager', () => {
       let expectedFirstMessage
       let expectedSecondMessage
 
-      before(() => {
-        expectedFirstMessage = queueManager.pullFromQueue()
-        expectedSecondMessage = queueManager.pullFromQueue()
+      before(async () => {
+        expectedFirstMessage = await queueManager.pullFromQueue()
+        expectedSecondMessage = await queueManager.pullFromQueue()
       })
 
       it('should pull messages from the queue.', () => {
@@ -39,22 +39,22 @@ describe('Queue Manager', () => {
         expect(expectedSecondMessage).to.have.property('content', secondMessage)
       })
 
-      it('should remove the messages from the "ready" queue.', () => {
-        expect(queueManager.getQueueLength()).to.be.eql(0)
+      it('should remove the messages from the "ready" queue.', async () => {
+        expect(await queueManager.getQueueLength()).to.be.eql(0)
       })
 
-      it('should put the messages in "awaiting for acknowledgement" state.', () => {
-        expect(queueManager.getUnackCount()).to.be.eql(2)
+      it('should put the messages in "awaiting for acknowledgement" state.', async () => {
+        expect(await queueManager.getUnackCount()).to.be.eql(2)
       })
     })
 
     context('Acknowledging a message before it is timed out', () => {
-      before(() => {
-        queueManager.acknowledgeMessage(firstMessageId)
+      before(async () => {
+        await queueManager.acknowledgeMessage(firstMessageId)
       })
 
-      it('should delete the message', () => {
-        expect(queueManager.getUnackCount()).to.be.eql(1)
+      it('should delete the message', async () => {
+        expect(await queueManager.getUnackCount()).to.be.eql(1)
       })
     })
 
@@ -63,20 +63,20 @@ describe('Queue Manager', () => {
         await new Promise((resolve) => setTimeout(resolve, 4000))
       })
 
-      it('should remove the message from the "awaiting for acknowledgement" state.', () => {
-        expect(queueManager.getUnackCount()).to.be.eql(0)
+      it('should remove the message from the "awaiting for acknowledgement" state.', async () => {
+        expect(await queueManager.getUnackCount()).to.be.eql(0)
       })
 
-      it('should return the message to the queue.', () => {
-        expect(queueManager.getQueueLength()).to.be.eql(1)
+      it('should return the message to the queue.', async () => {
+        expect(await queueManager.getQueueLength()).to.be.eql(1)
       })
     })
 
     context('Trying to acknowledge a timed out message.', () => {
       let result
 
-      before(() => {
-        result = queueManager.acknowledgeMessage(secondMessageId)
+      before(async () => {
+        result = await queueManager.acknowledgeMessage(secondMessageId)
       })
 
       it('should refuse the acknowledgement.', () => {
