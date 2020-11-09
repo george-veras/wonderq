@@ -10,19 +10,19 @@ This project is a simplified version of a message broker.
 
 This project was built using Node v14.15.0, which is the latest LTS version. I've put an .nvmrc file for convenently set this up. If you have nvm on your machine, just:
 
-```shell
+```text
 nvm use
 ```
 
 Install all the dependencies:
 
-```shell
+```text
 npm install
 ```
 
 Now you can start the project, just:
 
-```shell
+```text
 npm start
 ```
 
@@ -32,7 +32,7 @@ The app will run on http://localhost:3000
 
 This project ships with unit and acceptance tests, to run them:
 
-```shell
+```text
 npm test
 ```
 
@@ -42,31 +42,31 @@ Productivity and faster onboarding... Oh yeah!
 
 To lint the project:
 
-```shell
+```text
 npm run eslint
 ```
 
 To just check, but not fix quite yet:
 
-```shell
+```text
 npm run eslint:check
 ```
 
 Don't forget the prettier:
 
-```shell
+```text
 npm run prettier
 ```
 
 Checking things with prettier:
 
-```shell
+```text
 npm run prettier:check
 ```
 
 Combo! Prettier + Eslint:
 
-```shell
+```text
 npm run fmt
 or
 npm run fmt:check
@@ -90,7 +90,73 @@ So I decided that a "garbage collector" behavior would be much more interesting 
 
 With binary search I would reach the cutoff point in just O(log n) complexity, fair enough, now I just have to "splice" :scissors: the array at that point and get all the "bad part" to the "ready-to-be-picked" queue again, all at once. :recycle:
 
-Ok, ok... how about the other "view" I needed to pick an element in O(1) complexity, by id? That was tricky at first but I realized that a dictionary would do the job just fine, besides, I don't need to replicate the entire element there, memory is expensive, I just need the id to be the key with the "other-queue-index" as its value, working as a pointer.:point_left:
+Ok, ok... how about the other "view" I needed to pick an element in O(1) complexity, by id? That was tricky at first but I realized that a dictionary would do the job just fine, besides, I don't need to replicate the entire element there, memory is expensive, I just need the id to be the key with the "other-queue-index" as its value, working as a pointer.:point_right:
+
+Now let's talk about the juicy part!
+
+## Endpoints!
+
+Oh how I'd love to have delivered that part in one nice, tidy, beautifully documented :ok_hand: Swagger document, but I got distracted by things I would soon realize I'd not have time to finish. :weary: So please imagine that I did. :innocent:
+
+```text
+POST /messages
+
+Description:
+Where the fun begins, use this endpoint to push messages to the queue.
+
+Request Body:
+Anything! Yeah, serious...
+
+Succes response:
+Code: 200
+Content: { messageId: <uuid-v4> }
+```
+
+```text
+GET /messages
+
+Description:
+That's where the consumer goes to "Come to papa!"
+
+Succes response:
+Code: 200
+Content: { id: <uuid-v4>, content: <the actual message!> }
+
+Error response:
+Sometimes the queue could be empty, that's life.
+
+Code:404
+Content: Nothing! After all that's why you got a 404.
+```
+
+```text
+PUT /messages
+
+Description:
+Here is where a consumer would go to acknowledge that a message can be thrown away, because the work with it has been successfully done!
+
+Request Body:
+{ messageId: <id of the message to be acknowledged> }
+
+Success response:
+Code: 200
+
+Error response:
+The message that the consumer is trying to acknowledge may have already been bounced back to the "ready-to-be-picked" queue. Or... you could just be trying to deceive me with false data, AHA! Got you!
+
+Code: 404
+Content: No content for you today, sir!
+```
+
+```text
+GET /healthcheck
+
+Succes response:
+Code: 200
+
+Description:
+Remember I said that I was getting into things that wouldn't have time to finish? Ha! Just kidding... this endpoint is a [Must Have] for a dockerized API, that's where a Kubernetes or a Mesos would go to check the health of that node, that's an oportunity for the developer to check all the dependencies and make some logs (maybe) before those tools kill that instance in case of a non-200 response.
+```
 
 ## Worth Noting
 
