@@ -74,25 +74,25 @@ npm run fmt:check
 
 ## Decisions, decisions... life's full of them
 
-Well, to construct a message broker from the ground up is quite a feat! Especially in such a short time, so I believed that I was supposed to stick to the core decisions and explain my mind later on, I swear that I've tried :joy:
+Well, to build a message broker from the ground up is quite a feat! Especially in such a short time, so I believed that I was supposed to stick to the core decisions and explain my mind later on, I swear that I've tried :joy:
 
-Javascript is quite resourceful when it comes to algorithm implementation, and I soon realized that I would need some flexibility here, more precisely I would need two views of the same data set: one where I could reach a specific piece of data in O(1), and the other where I could quickly reach a cutoff point... hmmm... I started the thinking process on: How would I achieve that?
+Javascript is quite resourceful when it comes to algorithm implementation, and I soon realized that I would need some flexibility here, more precisely I would need two views of the same data set: one where I could reach a specific piece of data in O(1) complexity, and the other where I could quickly reach a cutoff point... hmmm... I started the thinking process on: How would I achieve that?
 
-Ok, first things first, a queue is a queue, no big deal in that, just... first in first out, checked! And once a consumer gets a message from it, I just have to displace that message from this queue, put a timestamp on it (we'll talk about this later) and put it on another, that's it.
+Ok, first things first, a queue is a queue, no big deal in that, just... first in and first out, checked! And once a consumer gets a message from it, I just have to displace that message from this queue, put a timestamp on it (we'll talk about this later) and put it on another queue, that's it.
 
 Now that this message is no more on the "ready-to-be-picked" queue, no one could ever take the same message, checked! What about the other "queue"?
 
 Well the other queue is, in fact, an array with its elements sorted by a number, remember the "timestamp"? This number not only puts the elements in order but also tells me when it's time for this message to leave, AHA! :tada:
 
-Hmmm, but let's see more closely... if I put a "setTimeout" in each and every message that I get... where my CPU would go if I had, say... half a million messages there? Nice! You just crashed the Event Loop! :collision:
+Hmmm, but let's see it more closely... if I put a "setTimeout" in each and every message that I get... Where my CPU would go if I had, say... half a million messages there? Nice, George! You just crashed the Event Loop! :collision:
 
-So I decided that a "garbage collector" behavior would be much more interesting here, it would run just once at a time and vanish the expired ones, cool! But wait, the array is sorted, but still... I have to iterate through each element untill I find the cutoff point, that gives me a O(n) complexity... hmmm... BINARY SEARCH TO THE RESCUE:exclamation: :fire_engine:
+So I decided that a "garbage collector" behavior would be much more interesting here, it would run just once at a time and vanish the expired ones, cool! But wait, the array is sorted, true, but still... I have to iterate through each element untill I find the cutoff point, that gives me a O(n) complexity in the worst case... hmmm... BINARY SEARCH TO THE RESCUE:exclamation: :fire_engine:
 
 With binary search I would reach the cutoff point in just O(log n) complexity, fair enough, now I just have to "splice" :scissors: the array at that point and get all the "bad part" to the "ready-to-be-picked" queue again, all at once. :recycle:
 
-Ok, ok... how about the other "view" I needed to pick an element in O(1) complexity, by id? That was tricky at first but I realized that a dictionary would do the job just fine, besides, I don't need to replicate the entire element there, memory is expensive, I just need the id to be the key with the "other-queue-index" as its value, working as a pointer.:point_right:
+Ok, ok... how about the other "view" I needed to pick an element by id in O(1) complexity? That was tricky at first but I realized that a dictionary would do the job just fine, besides, I don't need to replicate the entire element there, memory is expensive, I just need the id to be the key with the "other-queue-index" as its value, working as a pointer.:point_right:
 
-Now let's talk about the juicy part!
+Now let's get to the juicy part!
 
 ## Endpoints!
 
