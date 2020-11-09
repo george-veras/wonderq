@@ -133,7 +133,8 @@ Content: Nothing! After all that's why you got a 404.
 PUT /messages
 
 Description:
-Here is where a consumer would go to acknowledge that a message can be thrown away, because the work with it has been successfully done!
+Here is where a consumer would go to acknowledge that a message can be thrown away, 
+because the work with it has been successfully done!
 
 Request Body:
 { messageId: <id of the message to be acknowledged> }
@@ -142,7 +143,9 @@ Success response:
 Code: 200
 
 Error response:
-The message that the consumer is trying to acknowledge may have already been bounced back to the "ready-to-be-picked" queue. Or... you could just be trying to deceive me with false data, AHA! Got you!
+The message that the consumer is trying to acknowledge may have already been bounced back 
+to the "ready-to-be-picked" queue. Or... 
+you could just be trying to deceive me with false data, AHA! Got you!
 
 Code: 404
 Content: No content for you today, sir!
@@ -155,13 +158,17 @@ Succes response:
 Code: 200
 
 Description:
-Remember I said that I was getting into things that wouldn't have time to finish? Ha! Just kidding... this endpoint is a [Must Have] for a dockerized API, that's where a Kubernetes or a Mesos would go to check the health of that node, that's an oportunity for the developer to check all the dependencies and make some logs (maybe) before those tools kill that instance in case of a non-200 response.
+Remember I said that I was getting into things that wouldn't have time to finish?
+Ha! Just kidding... this endpoint is a [Must Have] for a dockerized API, 
+that's where a Kubernetes or a Mesos would go to check the health of that node, 
+that's an opportunity for the developer to check all the dependencies and make some logs (maybe) 
+before those tools kill that instance in case of a non-200 response.
 ```
 
 ## Worth Noting
 
-Every log provided by the API is written in json format, so as it becomes easier to plug in a tool like to index the logs on Elasticsearch and  Kibana to navigate through logs
-(in real life no one is looking to the console inside a container).
+Every log provided by the API is written in json format, so as it becomes easier to plug in a tool like [fluentd](https://www.fluentd.org/) to index the logs on Elasticsearch and  Kibana to navigate through them
+(in real life no one will be looking to the console inside a container).
 
 ## Next steps I would take
 - Better protocol - pure HTTP communications has too much overhead for this purpose, instead I would make use of a [protocol buffer](https://grpc.io/) to optimize the use of resources and ensure less overhead.
@@ -170,3 +177,8 @@ Every log provided by the API is written in json format, so as it becomes easier
 - Containerized solution and CI - I would not only put the project in an Docker register but also configurate a CI/CD solution going through [CircleCI](https://circleci.com/) to run all the tests when a PR is open.
 - Rules for the master branch - It shouldn't accept commits directly, work should be put there by a PR that has been passed through the automatized tests on CircleCI and approved by other developers.
 - Instrumentation - Super important! How would anyone know how the queues are behaving? The resources it is been consuming? I would put up a 'metrics' endpoint to export that type of data to [Prometheus](https://prometheus.io/) and plug [Grafana](https://grafana.com/) using his datasource. By the way, Grafana sends alerts to [PagerDuty](https://www.pagerduty.com/), which is a convenient way to know when things need attention.
+
+## Hope you had some fun
+
+Thank you, thank you, thank you very much for the opportunity, I hope I have brought more smiles to your day. :smiley:
+Let's work together!
